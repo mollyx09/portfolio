@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Movie Recommendation System | ML in Production</title>
-    <meta name="description" content="Production-style movie recommendation system with evaluation, deployment, monitoring, and iteration." />
+    <title>Single vs. Multi-Agent LLM Systems | Moulshree Guleria</title>
+    <meta name="description" content="Empirical study comparing single-agent and multi-agent LLM architectures for automated code generation and requirements engineering." />
 
     <link rel="stylesheet" href="css/style.css" />
 
@@ -83,22 +83,23 @@
         </div>
       </div>
     </header>
+
     <section class="project-cs-hero">
       <div class="project-cs-hero__content">
-        <h1 class="heading-primary">Movie Recommendation System</h1>
+        <h1 class="heading-primary">Empirical Study: Single vs. Multi-Agent LLM Systems</h1>
         <div class="project-cs-hero__info">
           <p class="text-primary">
-              Production-style recommendation system built end-to-end: training and evaluation,
-              deployment as an API, telemetry + monitoring, and continuous iteration with
-              fairness and reliability considerations.
+            A rigorous empirical comparison of single-agent and multi-agent LLM pipeline architectures
+            for automated code generation and requirements engineering, benchmarked across 1,282+ tasks
+            on five industry-standard datasets.
           </p>
         </div>
         <div class="project-cs-hero__cta">
-          <a href="#project-implementation" class="btn btn--bg"   
-          rel="noopener noreferrer">View Implementation</a>
+          <a href="#project-implementation" class="btn btn--bg">View Implementation</a>
         </div>
       </div>
     </section>
+
     <section class="project-details">
       <div class="main-container">
         <div class="project-details__content">
@@ -113,72 +114,72 @@
             <div class="project-details__desc">
               <h3 class="project-details__content-title">Project Overview</h3>
               <p class="project-details__desc-para">
-                 <strong>Situation:</strong>
-                 Real-world recommendation systems must balance relevance, reliability, and user trust
-                 while operating under production constraints such as latency, monitoring, and evolving data.
-                 Offline accuracy alone is not sufficient—systems need observability and mechanisms to
-                 detect drift and regressions.
-
+                <strong>Situation:</strong>
+                The rapid adoption of LLM-based coding assistants has created a pressing question for
+                production teams: when does the added complexity of multi-agent orchestration actually
+                outperform a well-engineered single-agent system? Existing literature lacks controlled,
+                cost-aware comparisons across standardized benchmarks, making it difficult to derive
+                practical deployment guidelines.
               </p>
               <p class="project-details__desc-para">
                 <strong>Task:</strong>
-                  Build an end-to-end movie recommendation platform that trains and evaluates recommendation models,
-                  deploys them behind a stable API, and supports production workflows including experiment tracking,
-                  telemetry, drift monitoring, and iterative improvement.
-
+                Design and execute a rigorous empirical study comparing single-agent and multi-agent
+                LLM architectures for two core software engineering tasks — automated code generation
+                and requirements engineering — while measuring not just accuracy but also token cost,
+                repair iterations, and semantic correctness.
               </p>
-
               <p class="project-details__desc-para">
                 <strong>Action:</strong>
-                  Implemented a recommendation pipeline with (1) data ingestion and feature processing,
-                  (2) baseline and improved recommenders (content-based + collaborative filtering variants),
-                  (3) offline evaluation using ranking metrics (Precision@K / Recall@K / NDCG@K),
-                  and (4) a deployed inference service exposing recommendations through REST endpoints.
-                  Added production telemetry (request latency, error rate, and recommendation coverage),
-                  versioned artifacts for reproducible experiments, and implemented monitoring checks to detect
-                  data drift and performance regression over time.
+                Architected <strong>3 LLM pipeline systems</strong> using <strong>LangGraph</strong>
+                and <strong>LangChain</strong>, powered by <strong>Claude Sonnet (Anthropic API)</strong>.
+                Engineered <strong>6 specialized agents</strong> — Planner, Extractor, Critic, Coder,
+                Test Runner, and SME Advisory — with budget-guard constraints to prevent runaway token
+                usage. Evaluated all systems across <strong>1,282+ tasks</strong> on five datasets:
+                HumanEval+, MBPP+, BigCodeBench-Hard, PURE, and NICE. Measured pass@1, Semantic F1,
+                token cost per task, and repair iterations to derive actionable cost-efficiency guidelines.
               </p>
               <p class="project-details__desc-para">
                 <strong>Result:</strong>
-                Delivered a production-ready, AI-powered movie recommendation system achieving
-                <strong>0.92 RMSE</strong> using <strong>SVD++ collaborative filtering</strong>.
-                Deployed a <strong>FastAPI-based inference service</strong> containerized with Docker,
-                consistently serving recommendations in <strong>&lt;200 ms latency</strong>.
-                Built an end-to-end ML pipeline with <strong>automated training, evaluation, and
-                deployment via Jenkins</strong>, enabling safe iteration and controlled rollouts.
-                Integrated <strong>Prometheus and Grafana</strong> for real-time monitoring and
-                observability, ensuring reliability and performance visibility in a
-                production-style environment.
+                Achieved <strong>100% pass@1 on HumanEval+ and MBPP+</strong> and
+                <strong>0.781 Semantic F1 on requirements engineering tasks</strong> (PURE/NICE datasets).
+                Derived concrete cost-efficiency deployment guidelines for production LLM systems,
+                showing that multi-agent architectures provide measurable gains on complex, ambiguous
+                tasks while single-agent pipelines remain competitive on well-defined coding benchmarks.
+                Study ongoing as part of UIC coursework (January 2026 – Present).
               </p>
             </div>
+
             <div class="project-details__tools-used">
               <h3 class="project-details__content-title">Tools Used</h3>
               <div class="skills">
+                <div class="skills__skill">LangGraph</div>
+                <div class="skills__skill">LangChain</div>
+                <div class="skills__skill">Claude Sonnet (Anthropic)</div>
                 <div class="skills__skill">Python</div>
-                <div class="skills__skill">Surprise(SVD++)</div>
-                <div class="skills__skill">FastAPI</div>
-                <div class="skills__skill">Docker</div>
-                <div class="skills__skill">Jenkins</div>
-                <div class="skills__skill">LaunchDarkly</div>
-                <div class="skills__skill">Prometheus</div>
-                <div class="skills__skill">Grafana</div>
-                <div class="skills__skill">Recommender Systems</div>
-                <div class="skills__skill">CI/CD for ML</div>
+                <div class="skills__skill">Agentic AI</div>
+                <div class="skills__skill">Multi-Agent Systems</div>
+                <div class="skills__skill">LLMs</div>
+                <div class="skills__skill">Prompt Engineering</div>
+                <div class="skills__skill">HumanEval+</div>
+                <div class="skills__skill">MBPP+</div>
+                <div class="skills__skill">BigCodeBench</div>
+                <div class="skills__skill">Requirements Engineering</div>
+                <div class="skills__skill">Empirical Software Engineering</div>
               </div>
             </div>
+
             <div class="project-details__links" id="project-implementation">
               <h3 class="project-details__content-title">Project Implementation</h3>
-              <a
-                href="https://github.com/Srivatsa03/Movie-Recommendation"
-                class="btn btn--med btn--theme-inv project-details__links-btn"
-                target="_blank"
-                >Repository</a
-              >
+              <p class="project-details__desc-para">
+                This project is currently in progress. The repository will be linked upon completion.
+              </p>
             </div>
+
           </div>
         </div>
       </div>
     </section>
+
     <footer class="main-footer">
       <div class="main-container">
         <div class="main-footer__upper">
@@ -201,17 +202,17 @@
           <div class="main-footer__row main-footer__row-2">
             <h4 class="heading heading-sm text-lt">Moulshree Guleria</h4>
             <p class="main-footer__short-desc">
-              Software Engineer and AI Developer focused on distributed systems, AI applications
+              Software Engineer and AI Developer focused on distributed systems, AI applications,
               and production-scale backend platforms.
             </p>
           </div>
         </div>
-
         <div class="main-footer__lower">
           &copy; Built using a modified open-source template.
         </div>
       </div>
     </footer>
+
     <script src="./index.js"></script>
   </body>
 </html>

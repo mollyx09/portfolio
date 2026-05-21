@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Case Study of Project 1</title>
-    <meta name="description" content="Case study page of Project" />
+    <title>Distributed RAG Indexer | Moulshree Guleria</title>
+    <meta name="description" content="Distributed RAG indexing system implemented using Hadoop MapReduce, Apache Spark, and Apache Flink." />
 
     <link rel="stylesheet" href="css/style.css" />
 
@@ -22,12 +22,12 @@
         <div class="header__logo-container">
           <div class="header__logo-img-cont">
             <img
-              src="./assets/png/john-doe.png"
+              src="./assets/png/profile.png"
               alt="Ram Maheshwari Logo Image"
               class="header__logo-img"
             />
           </div>
-          <span class="header__logo-sub">John Doe</span>
+          <span class="header__logo-sub">Moulshree Guleria</span>
         </div>
         <div class="header__main">
           <ul class="header__links">
@@ -38,9 +38,10 @@
               <a href="./index.html#about" class="header__link">About </a>
             </li>
             <li class="header__link-wrapper">
-              <a href="./index.html#projects" class="header__link">
-                Projects
-              </a>
+              <a href="./index.html#workexperience" class="header__link">Work Experience</a>
+            </li>
+            <li class="header__link-wrapper">
+              <a href="./index.html#projects" class="header__link">Projects</a>
             </li>
             <li class="header__link-wrapper">
               <a href="./index.html#contact" class="header__link"> Contact </a>
@@ -66,15 +67,15 @@
             <li class="header__sm-menu-link">
               <a href="./index.html"> Home </a>
             </li>
-
             <li class="header__sm-menu-link">
               <a href="./index.html#about"> About </a>
             </li>
-
+            <li class="header__sm-menu-link">
+              <a href="./index.html#workexperience"> Work Experience </a>
+            </li>
             <li class="header__sm-menu-link">
               <a href="./index.html#projects"> Projects </a>
             </li>
-
             <li class="header__sm-menu-link">
               <a href="./index.html#contact"> Contact </a>
             </li>
@@ -84,16 +85,16 @@
     </header>
     <section class="project-cs-hero">
       <div class="project-cs-hero__content">
-        <h1 class="heading-primary">Project 1</h1>
+        <h1 class="heading-primary">  Distributed RAG Indexer</h1>
         <div class="project-cs-hero__info">
           <p class="text-primary">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos
-            in numquam incidunt earum quaerat cum fuga, atque similique natus
-            nobis sit.
+            A multi-phase Retrieval-Augmented Generation (RAG) indexing system
+            implemented using Hadoop MapReduce, Apache Spark, and Apache Flink
+            to support scalable semantic search and knowledge graph construction.
           </p>
         </div>
         <div class="project-cs-hero__cta">
-          <a href="#" class="btn btn--bg" target="_blank">Live Link</a>
+          <a href="#project-phases" class="btn btn--bg" >View Implementation</a>
         </div>
       </div>
     </section>
@@ -111,53 +112,127 @@
             <div class="project-details__desc">
               <h3 class="project-details__content-title">Project Overview</h3>
               <p class="project-details__desc-para">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-                alias tenetur minus quaerat aliquid, aut provident blanditiis,
-                deleniti aspernatur ipsam eaque veniam voluptatem corporis vitae
-                mollitia laborum corrupti ullam rem. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Neque alias tenetur minus quaerat
-                aliquid, aut provident blanditiis, deleniti aspernatur ipsam
-                eaque veniam voluptatem corporis vitae mollitia laborum corrupti
-                ullam rem?
-              </p>
-              <p class="project-details__desc-para">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque
-                alias tenetur minus quaerat aliquid, aut provident blanditiis,
-                deleniti aspernatur ipsam eaque veniam voluptatem corporis vitae
-                mollitia laborum corrupti ullam rem?
-              </p>
+                <strong>Situation:</strong>
+                Modern Retrieval-Augmented Generation (RAG) systems require scalable indexing
+                pipelines that can process large document corpora while supporting semantic
+                search, graph-based reasoning, and incremental updates. Traditional
+                single-stage pipelines struggle with cost efficiency, latency, and real-time
+                adaptability at scale.
+                </p>
+                <p class="project-details__desc-para">
+                  <strong>Task:</strong>
+                  Design and implement a production-style distributed indexing system capable of
+                  processing <strong>600+ MSR research papers</strong>, supporting batch,
+                  micro-batch, and streaming ingestion models, and serving structured retrieval
+                  for downstream RAG-based question answering.
+                </p>
+                <p class="project-details__desc-para">
+                  <strong>Action:</strong>
+                  Architected the system as a progressive distributed pipeline:
+                  implemented batch indexing using <strong>Hadoop MapReduce on AWS EMR</strong>,
+                  re-designed the pipeline using <strong>Apache Spark with Delta Lake</strong>
+                  for incremental processing and cost-efficient deduplication, and extended the
+                  system with <strong>Apache Flink on AWS EKS</strong> to support real-time
+                  streaming updates and <strong>Neo4j</strong>-based knowledge graph construction.
+                  Deployed the system on <strong>Kubernetes</strong> with IAM-secured access,
+                  EBS-backed persistence, and exposed retrieval and QA services via
+                  <strong>Akka HTTP REST APIs</strong>.
+                </p>
+                <p class="project-details__desc-para">
+                  <strong>Result:</strong>
+                    Achieved an <strong>85% reduction in batch processing time</strong> in the
+                    MapReduce implementation, a <strong>70% reduction in compute and storage
+                    costs</strong> through content-hash deduplication in Spark, and
+                    <strong>sub-second P95 query latency</strong> with
+                    <strong>&lt;2s end-to-end QA latency</strong> 
+                    (search → retrieve → generate) in the Flink-based streaming system.
+                    Validated performance through sustained-load testing and end-to-end demos.
+
+                </p>
+                              
             </div>
             <div class="project-details__tools-used">
               <h3 class="project-details__content-title">Tools Used</h3>
               <div class="skills">
-                <div class="skills__skill">HTML</div>
-                <div class="skills__skill">CSS</div>
-                <div class="skills__skill">JavaScript</div>
-                <div class="skills__skill">React</div>
-                <div class="skills__skill">SASS</div>
-                <div class="skills__skill">GIT</div>
-                <div class="skills__skill">Shopify</div>
-                <div class="skills__skill">Wordpress</div>
-                <div class="skills__skill">Google ADS</div>
-                <div class="skills__skill">Facebook Ads</div>
-                <div class="skills__skill">Android</div>
-                <div class="skills__skill">IOS</div>
+                <div class="skills__skill">Hadoop MapReduce</div>
+                <div class="skills__skill">Apache Spark</div>
+                <div class="skills__skill">Delta Lake</div>
+                <div class="skills__skill">Apache Flink</div>
+                <div class="skills__skill">AWS EMR</div>
+                <div class="skills__skill">AWS EKS</div>
+                <div class="skills__skill">AWS S3</div>
+                <div class="skills__skill">AWS ECR</div>
+                <div class="skills__skill">AWS EC2</div>
+                <div class="skills__skill">Scala</div>
+                <div class="skills__skill">Kubernetes</div>
+                <div class="skills__skill">Docker</div>
+                <div class="skills__skill">Neo4j</div>
+                <div class="skills__skill">Lucene HNSW</div>
+                <div class="skills__skill">Ollama (LLM)</div>
+                <div class="skills__skill">Akka HTTP</div>
+                <div class="skills__skill">RAG Systems</div>
+                <div class="skills__skill">Distributed Systems</div>
+
               </div>
             </div>
             <div class="project-details__links">
-              <h3 class="project-details__content-title">See Live</h3>
+              <h3 class="project-details__content-title" id="project-phases">
+              Implementation Phases</h3>
+              <!-- Phase 1 -->
+               <p class="project-details__desc-para">
+                <strong>Phase 1 – Hadoop MapReduce:</strong>
+                Initial batch-based indexing pipeline for large-scale document ingestion
+                and metadata extraction.
+              </p>
               <a
-                href="#"
+              href="https://www.youtube.com/watch?v=4-1fmLUIEGg"
+              class="btn btn--med btn--theme project-details__links-btn"
+              target="_blank"
+              >
+              MapReduce Demo
+              </a>
+              <a
+              href="https://github.com/mollyx09/CS411-HW1-RAGIndexer"
+              class="btn btn--med btn--theme-inv project-details__links-btn"
+              target="_blank"
+              >View MapReduce Code</a>
+
+              <!-- Phase 2 -->
+               <p class="project-details__desc-para" style="margin-top:1.5rem;">
+                <strong>Phase 2 – Apache Spark + Delta Lake:</strong>
+                Re-architected the pipeline using Spark for faster execution,
+                fault tolerance, and incremental indexing with Delta Lake.
+              </p>
+              <a
+              href="https://www.youtube.com/watch?v=WSi1v9qypk4"
+              class="btn btn--med btn--theme project-details__links-btn"
+              target="_blank"
+              >Spark Demo</a>
+              <a
+              href="https://github.com/mollyx09/llm-rag-spark-delta"
+              class="btn btn--med btn--theme-inv project-details__links-btn"
+              target="_blank"
+              >View Spark Code</a>
+
+              <!-- Phase 3 -->
+               <p class="project-details__desc-para" style="margin-top:1.5rem;">
+                <strong>Phase 3 – Apache Flink + GraphRAG:</strong>
+                Implemented streaming ingestion and real-time knowledge graph
+                construction using Flink and Neo4j for GraphRAG-based retrieval.
+                </p>
+
+                <a
+                href="https://www.youtube.com/watch?v=4G3yCiSvF5U"
                 class="btn btn--med btn--theme project-details__links-btn"
                 target="_blank"
-                >Live Link</a
-              >
-              <a
-                href="#"
+                >Flink Demo</a>
+
+                <a
+                href="https://github.com/mollyx09/graphrag"
                 class="btn btn--med btn--theme-inv project-details__links-btn"
                 target="_blank"
-                >Code Link</a
-              >
+                >View GraphRAG Code</a>
+
             </div>
           </div>
         </div>
@@ -171,57 +246,28 @@
               <span>Social</span>
             </h2>
             <div class="main-footer__social-cont">
-              <a target="_blank" rel="noreferrer" href="#">
-                <img
-                  class="main-footer__icon"
-                  src="./assets/png/linkedin-ico.png"
-                  alt="icon"
-                />
+              <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/moulshreegul/">
+                <img class="main-footer__icon" src="./assets/png/linkedin-ico.png" alt="LinkedIn" />
               </a>
-              <a target="_blank" rel="noreferrer" href="#">
-                <img
-                  class="main-footer__icon"
-                  src="./assets/png/github-ico.png"
-                  alt="icon"
-                />
+              <a target="_blank" rel="noreferrer" href="https://github.com/mollyx09">
+                <img class="main-footer__icon" src="./assets/png/github-ico.png" alt="GitHub" />
               </a>
-              <a target="_blank" rel="noreferrer" href="#">
-                <img
-                  class="main-footer__icon"
-                  src="./assets/png/twitter-ico.png"
-                  alt="icon"
-                />
-              </a>
-              <a target="_blank" rel="noreferrer" href="#">
-                <img
-                  class="main-footer__icon"
-                  src="./assets/png/yt-ico.png"
-                  alt="icon"
-                />
-              </a>
-              <a target="_blank" rel="noreferrer" href="#">
-                <img
-                  class="main-footer__icon main-footer__icon--mr-none"
-                  src="./assets/png/insta-ico.png"
-                  alt="icon"
-                />
+              <a target="_blank" rel="noreferrer" href="https://www.youtube.com/@moulshreeguleria2229">
+                <img class="main-footer__icon main-footer__icon--mr-none" src="./assets/png/yt-ico.png" alt="YouTube" />
               </a>
             </div>
           </div>
           <div class="main-footer__row main-footer__row-2">
-            <h4 class="heading heading-sm text-lt">John Doe</h4>
+            <h4 class="heading heading-sm text-lt">Moulshree Guleria</h4>
             <p class="main-footer__short-desc">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit facilis
-              tempora explicabo quae quod deserunt
+              Software Engineer and AI Developer focused on distributed systems, AI applications
+              and production-scale backend platforms.
             </p>
           </div>
         </div>
 
         <div class="main-footer__lower">
-          &copy; Copyright 2021. Made by
-          <a rel="noreferrer" target="_blank" href="https://rammaheshwari.com"
-            >Ram Maheshwari</a
-          >
+          &copy; Built using a modified open-source template.
         </div>
       </div>
     </footer>
