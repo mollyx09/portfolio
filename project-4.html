@@ -1,218 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Single vs. Multi-Agent LLM Systems | Moulshree Guleria</title>
-    <meta name="description" content="Empirical study comparing single-agent and multi-agent LLM architectures for automated code generation and requirements engineering." />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Single vs. Multi-Agent LLM Systems | Moulshree Guleria</title>
+  <meta name="description" content="Empirical study comparing single-agent and multi-agent LLM architectures for code generation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --sage:#5C8A6A;--sage-light:#A8C5B0;--sage-pale:#EAF2EC;
+      --sky:#4A7FA5;--sky-light:#A8C8E0;--sky-pale:#E8F3FA;
+      --ink:#1E2A2E;--ink-mid:#3D4F55;--muted:#7A8F96;--subtle:#B8C8CE;
+      --surface:#F7FAF8;--white:#FFFFFF;--border:rgba(92,138,106,0.15);
+      --radius-sm:6px;--radius-md:12px;--radius-lg:20px;
+      --shadow-sm:0 2px 12px rgba(30,42,46,0.06);--shadow-md:0 6px 32px rgba(30,42,46,0.10);
+      --transition:0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--ink);line-height:1.7;font-size:16px;overflow-x:hidden}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--sage-light);border-radius:3px}
 
-    <link rel="stylesheet" href="css/style.css" />
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;background:rgba(247,250,248,0.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;height:64px;transition:box-shadow var(--transition)}
+    .nav.scrolled{box-shadow:var(--shadow-sm)}
+    .nav__logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav__logo-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--sage-pale),var(--sky-pale));border:1.5px solid var(--sage-light);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--sage);overflow:hidden}
+    .nav__logo-avatar img{width:100%;height:100%;object-fit:cover}
+    .nav__logo-name{font-size:15px;font-weight:500;color:var(--ink);letter-spacing:-0.01em}
+    .nav__links{display:flex;align-items:center;gap:2px;list-style:none}
+    .nav__links a{display:block;padding:6px 14px;border-radius:8px;text-decoration:none;font-size:14px;font-weight:400;color:var(--ink-mid);transition:color var(--transition),background var(--transition)}
+    .nav__links a:hover{color:var(--sage);background:var(--sage-pale)}
+    .nav__resume{padding:7px 18px!important;border-radius:8px!important;background:var(--sage)!important;color:var(--white)!important;font-weight:500!important;transition:background var(--transition),transform var(--transition)!important}
+    .nav__resume:hover{background:var(--ink)!important;transform:translateY(-1px)}
+    .nav__ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+    .nav__ham span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:var(--transition)}
+    .nav__mobile{display:none;position:absolute;top:64px;left:0;right:0;background:rgba(247,250,248,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 5% 20px;flex-direction:column;gap:4px}
+    .nav__mobile.open{display:flex}
+    .nav__mobile a{padding:10px 14px;border-radius:8px;text-decoration:none;color:var(--ink-mid);font-size:15px;transition:var(--transition)}
+    .nav__mobile a:hover{color:var(--sage);background:var(--sage-pale)}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header class="header">
-      <div class="header__content">
-        <div class="header__logo-container">
-          <div class="header__logo-img-cont">
-            <img
-              src="./assets/png/profile.png"
-              alt="Moulshree Guleria"
-              class="header__logo-img"
-            />
-          </div>
-          <span class="header__logo-sub">Moulshree Guleria</span>
+    /* HERO */
+    .project-hero{padding:120px 5% 64px;background:var(--white);border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+    .project-hero__bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(168,200,224,0.12) 0%,transparent 70%),radial-gradient(ellipse 40% 60% at 5% 50%,rgba(168,197,176,0.10) 0%,transparent 70%)}
+    .project-hero__back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:13px;color:var(--muted);margin-bottom:28px;transition:color var(--transition)}
+    .project-hero__back:hover{color:var(--sage)}
+    .project-hero__back svg{width:14px;height:14px;stroke:currentColor;stroke-width:2}
+    .project-hero__label{display:inline-block;padding:4px 12px;border-radius:100px;background:var(--sage-pale);border:1px solid rgba(92,138,106,0.25);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
+    .project-hero__title{font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,52px);color:var(--ink);line-height:1.15;letter-spacing:-0.02em;margin-bottom:20px;max-width:760px}
+    .project-hero__desc{font-size:17px;color:var(--ink-mid);max-width:640px;line-height:1.75;margin-bottom:32px}
+    .project-hero__cta{display:flex;flex-wrap:wrap;gap:10px}
+
+    /* CONTENT */
+    .project-content{max-width:860px;margin:0 auto;padding:72px 5%}
+    .project-section{margin-bottom:56px}
+    .project-section__label{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
+    .project-section__title{font-family:'DM Serif Display',serif;font-size:26px;color:var(--ink);margin-bottom:20px}
+    .project-section p{font-size:16px;color:var(--ink-mid);line-height:1.8;margin-bottom:16px}
+    .project-section p:last-child{margin-bottom:0}
+    .project-section p strong{color:var(--ink);font-weight:600}
+    .divider{width:40px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--sage),var(--sky-light));margin-bottom:40px}
+
+    /* STAR cards */
+    .star-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
+    .star-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 22px}
+    .star-card__letter{font-family:'DM Serif Display',serif;font-size:28px;color:var(--sage-light);margin-bottom:6px}
+    .star-card__label{font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);margin-bottom:10px}
+    .star-card p{font-size:14px;color:var(--ink-mid);line-height:1.7;margin:0}
+    .star-card p strong{color:var(--ink);font-weight:600}
+
+    /* Tags */
+    .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .tag{padding:5px 13px;border-radius:100px;font-size:13px;font-weight:500;background:var(--white);color:var(--ink-mid);border:1px solid var(--border);transition:all var(--transition)}
+    .tag:hover{background:var(--sage-pale);border-color:var(--sage-light);color:var(--sage)}
+
+    /* Links section */
+    .links-list{display:flex;flex-direction:column;gap:12px}
+    .link-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);transition:all var(--transition)}
+    .link-item:hover{border-color:var(--sage-light);box-shadow:var(--shadow-sm)}
+    .link-item__label{font-size:15px;font-weight:500;color:var(--ink)}
+    .link-item__desc{font-size:13px;color:var(--muted);margin-top:2px}
+    .link-item__actions{display:flex;gap:8px;flex-shrink:0}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:9px;font-size:14px;font-weight:500;text-decoration:none;cursor:pointer;transition:all var(--transition);border:1.5px solid transparent}
+    .btn--primary{background:var(--sage);color:var(--white);border-color:var(--sage)}
+    .btn--primary:hover{background:var(--ink);border-color:var(--ink);transform:translateY(-1px);box-shadow:0 6px 20px rgba(92,138,106,0.25)}
+    .btn--outline{background:transparent;color:var(--ink-mid);border-color:var(--subtle)}
+    .btn--outline:hover{border-color:var(--sage);color:var(--sage);background:var(--sage-pale)}
+    .btn--sm{padding:7px 16px;font-size:13px}
+
+    /* IMG */
+    .project-img-wrap{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);margin-bottom:56px;box-shadow:var(--shadow-sm)}
+    .project-img-wrap img{width:100%;display:block}
+
+    /* FOOTER */
+    .footer{background:var(--ink);color:rgba(255,255,255,0.6);padding:48px 5%}
+    .footer__inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px}
+    .footer__brand{font-family:'DM Serif Display',serif;font-size:22px;color:var(--white);margin-bottom:6px}
+    .footer__tagline{font-size:13px;color:rgba(255,255,255,0.45)}
+    .footer__socials{display:flex;gap:10px}
+    .footer__social{width:38px;height:38px;border-radius:9px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all var(--transition)}
+    .footer__social:hover{background:var(--sage);border-color:var(--sage)}
+    .footer__social img{width:16px;height:16px;filter:brightness(0) invert(1);opacity:0.7}
+    .footer__social:hover img{opacity:1}
+    .footer__copy{width:100%;text-align:center;font-size:12px;color:rgba(255,255,255,0.3);padding-top:32px;border-top:1px solid rgba(255,255,255,0.06);margin-top:12px}
+
+    @media(max-width:768px){
+      .nav__links{display:none}.nav__ham{display:flex}
+      .star-grid{grid-template-columns:1fr}
+      .project-hero{padding:100px 5% 48px}
+    }
+
+    /* ── TECH STACK THUMBNAIL ── */
+    .project-hero__thumb {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+      margin-top: 32px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pcard-logos {
+      display: flex; flex-wrap: wrap;
+      gap: 20px 28px;
+      justify-content: center; align-items: center;
+    }
+    .pcard-logo {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+    }
+    .pcard-logo svg { display: block; }
+    .pcard-logo span {
+      font-size: 11px; font-weight: 500;
+      color: var(--ink-mid); letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <a href="./index.html" class="nav__logo">
+      <div class="nav__logo-avatar">
+        <img src="./assets/png/profile.png" alt="MG" onerror="this.style.display='none';this.parentElement.textContent='MG'" />
+      </div>
+      <span class="nav__logo-name">Moulshree Guleria</span>
+    </a>
+    <ul class="nav__links">
+      <li><a href="./index.html#about">About</a></li>
+      <li><a href="./index.html#experience">Experience</a></li>
+      <li><a href="./index.html#projects">Projects</a></li>
+      <li><a href="./index.html#contact">Contact</a></li>
+      <li><a href="https://drive.google.com/uc?export=download&id=14bc3s9U6n5-Qavgq2y8z0wKPp1rvjv0q" class="nav__resume" target="_blank" rel="noopener noreferrer">Resume ↗</a></li>
+    </ul>
+    <div class="nav__ham" id="ham"><span></span><span></span><span></span></div>
+    <div class="nav__mobile" id="mobileMenu">
+      <a href="./index.html#about" class="mobile-link">About</a>
+      <a href="./index.html#experience" class="mobile-link">Experience</a>
+      <a href="./index.html#projects" class="mobile-link">Projects</a>
+      <a href="./index.html#contact" class="mobile-link">Contact</a>
+      <a href="https://drive.google.com/uc?export=download&id=14bc3s9U6n5-Qavgq2y8z0wKPp1rvjv0q" target="_blank">Resume ↗</a>
+    </div>
+  </nav>
+
+  <section class="project-hero">
+    <div class="project-hero__bg"></div>
+    <a href="./index.html#projects" class="project-hero__back">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Projects
+    </a>
+    <div class="project-hero__label">Agentic AI · Empirical Research · In Progress</div>
+    <h1 class="project-hero__title">Empirical Study: Single vs. Multi-Agent LLM Systems</h1>
+    <p class="project-hero__desc">A rigorous comparison of single-agent and multi-agent LLM pipeline architectures for automated code generation and requirements engineering — benchmarked across 1,282+ tasks on five industry-standard datasets.</p>
+<div class="project-hero__thumb" style="background:linear-gradient(135deg,#F3EAF2,#EAF2EC)">
+      <div class="pcard-logos"><div class="pcard-logo" title="LangGraph"><img src="./assets/png/logos/langgraph-logo.png" alt="LangGraph" width="32" height="32" style="object-fit:contain;border-radius:4px;"><span>LangGraph</span></div><div class="pcard-logo" title="LangChain"><img src="./assets/png/logos/langchain-logo.png" alt="LangChain" width="32" height="32" style="object-fit:contain;border-radius:4px;"><span>LangChain</span></div><div class="pcard-logo" title="Claude"><img src="./assets/png/logos/claude-logo.png" alt="Claude" width="32" height="32" style="object-fit:contain;border-radius:4px;"><span>Claude</span></div><div class="pcard-logo" title="LLMs"><svg width="32" height="32" viewBox="0 0 24 24" fill="#412991"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg><span>LLMs</span></div><div class="pcard-logo" title="Python"><svg width="32" height="32" viewBox="0 0 24 24" fill="#3776AB"><path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/></svg><span>Python</span></div></div>
+    </div>
+    <div class="project-hero__cta">
+      <a href="#overview" class="btn btn--primary">View Overview</a>
+    </div>
+  </section>
+
+  <div class="project-content">
+
+    <div class="project-section" id="overview">
+      <div class="project-section__label">Overview</div>
+      <h2 class="project-section__title">Project Summary</h2>
+      <div class="divider"></div>
+      <div class="star-grid">
+        <div class="star-card">
+          <div class="star-card__letter">S</div>
+          <div class="star-card__label">Situation</div>
+          <p>The rapid adoption of LLM-based coding assistants raises a key question for production teams: when does multi-agent orchestration actually outperform a well-engineered single-agent system? Existing literature lacks controlled, cost-aware comparisons across standardized benchmarks.</p>
         </div>
-        <div class="header__main">
-          <ul class="header__links">
-            <li class="header__link-wrapper">
-              <a href="./index.html" class="header__link"> Home </a>
-            </li>
-            <li class="header__link-wrapper">
-              <a href="./index.html#about" class="header__link">About </a>
-            </li>
-            <li class="header__link-wrapper">
-              <a href="./index.html#workexperience" class="header__link">Work Experience</a>
-            </li>
-            <li class="header__link-wrapper">
-              <a href="./index.html#projects" class="header__link">Projects</a>
-            </li>
-            <li class="header__link-wrapper">
-              <a href="./index.html#contact" class="header__link"> Contact </a>
-            </li>
-          </ul>
-          <div class="header__main-ham-menu-cont">
-            <img
-              src="./assets/svg/ham-menu.svg"
-              alt="hamburger menu"
-              class="header__main-ham-menu"
-            />
-            <img
-              src="./assets/svg/ham-menu-close.svg"
-              alt="hamburger menu close"
-              class="header__main-ham-menu-close d-none"
-            />
+        <div class="star-card">
+          <div class="star-card__letter">T</div>
+          <div class="star-card__label">Task</div>
+          <p>Design and execute an empirical study comparing single-agent and multi-agent LLM architectures for automated code generation and requirements engineering — measuring accuracy, token cost, and repair efficiency.</p>
+        </div>
+        <div class="star-card">
+          <div class="star-card__letter">A</div>
+          <div class="star-card__label">Action</div>
+          <p>Architected <strong>3 LLM pipeline systems</strong> using LangGraph and LangChain, powered by Claude Sonnet. Engineered <strong>6 specialized agents</strong> (Planner, Extractor, Critic, Coder, Test Runner, SME Advisory) with budget-guard constraints. Evaluated across <strong>1,282+ tasks</strong> on HumanEval+, MBPP+, BigCodeBench-Hard, PURE, and NICE datasets.</p>
+        </div>
+        <div class="star-card">
+          <div class="star-card__letter">R</div>
+          <div class="star-card__label">Result</div>
+          <p><strong>100% pass@1</strong> on HumanEval+ and MBPP+ · <strong>0.781 Semantic F1</strong> on RE tasks · Derived cost-efficiency deployment guidelines for production LLM systems. Study ongoing (Jan 2026 – Present).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-section">
+      <div class="project-section__label">Technologies</div>
+      <h2 class="project-section__title">Tools Used</h2>
+      <div class="tags">
+        <span class="tag">LangGraph</span><span class="tag">LangChain</span>
+        <span class="tag">Claude Sonnet (Anthropic)</span><span class="tag">Python</span>
+        <span class="tag">Agentic AI</span><span class="tag">Multi-Agent Systems</span>
+        <span class="tag">LLMs</span><span class="tag">Prompt Engineering</span>
+        <span class="tag">HumanEval+</span><span class="tag">MBPP+</span>
+        <span class="tag">BigCodeBench</span><span class="tag">Requirements Engineering</span>
+        <span class="tag">Empirical Software Engineering</span>
+      </div>
+    </div>
+
+    <div class="project-section">
+      <div class="project-section__label">Implementation</div>
+      <h2 class="project-section__title">Project Links</h2>
+      <div class="links-list">
+        <div class="link-item">
+          <div>
+            <div class="link-item__label">Repository — Coming Soon</div>
+            <div class="link-item__desc">This project is currently in progress. The repository will be linked upon completion.</div>
           </div>
         </div>
       </div>
-      <div class="header__sm-menu">
-        <div class="header__sm-menu-content">
-          <ul class="header__sm-menu-links">
-            <li class="header__sm-menu-link">
-              <a href="./index.html"> Home </a>
-            </li>
-            <li class="header__sm-menu-link">
-              <a href="./index.html#about"> About </a>
-            </li>
-            <li class="header__sm-menu-link">
-              <a href="./index.html#workexperience"> Work Experience </a>
-            </li>
-            <li class="header__sm-menu-link">
-              <a href="./index.html#projects"> Projects </a>
-            </li>
-            <li class="header__sm-menu-link">
-              <a href="./index.html#contact"> Contact </a>
-            </li>
-          </ul>
-        </div>
+    </div>
+
+  </div>
+
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div>
+        <div class="footer__brand">Moulshree Guleria</div>
+        <div class="footer__tagline">Software Engineer · AI Developer · Chicago, IL</div>
       </div>
-    </header>
-
-    <section class="project-cs-hero">
-      <div class="project-cs-hero__content">
-        <h1 class="heading-primary">Empirical Study: Single vs. Multi-Agent LLM Systems</h1>
-        <div class="project-cs-hero__info">
-          <p class="text-primary">
-            A rigorous empirical comparison of single-agent and multi-agent LLM pipeline architectures
-            for automated code generation and requirements engineering, benchmarked across 1,282+ tasks
-            on five industry-standard datasets.
-          </p>
-        </div>
-        <div class="project-cs-hero__cta">
-          <a href="#project-implementation" class="btn btn--bg">View Implementation</a>
-        </div>
+      <div class="footer__socials">
+        <a href="https://www.linkedin.com/in/moulshreegul/" class="footer__social" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://github.com/mollyx09" class="footer__social" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@moulshreeguleria2229" class="footer__social" target="_blank" rel="noopener noreferrer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+        </a>
       </div>
-    </section>
+    </div>
+    <div class="footer__copy">Built using a modified open-source template &nbsp;·&nbsp; Chicago, 2025</div>
+  </footer>
 
-    <section class="project-details">
-      <div class="main-container">
-        <div class="project-details__content">
-          <div class="project-details__showcase-img-cont">
-            <img
-              src="./assets/jpeg/project-mockup-example.jpeg"
-              alt="Project Image"
-              class="project-details__showcase-img"
-            />
-          </div>
-          <div class="project-details__content-main">
-            <div class="project-details__desc">
-              <h3 class="project-details__content-title">Project Overview</h3>
-              <p class="project-details__desc-para">
-                <strong>Situation:</strong>
-                The rapid adoption of LLM-based coding assistants has created a pressing question for
-                production teams: when does the added complexity of multi-agent orchestration actually
-                outperform a well-engineered single-agent system? Existing literature lacks controlled,
-                cost-aware comparisons across standardized benchmarks, making it difficult to derive
-                practical deployment guidelines.
-              </p>
-              <p class="project-details__desc-para">
-                <strong>Task:</strong>
-                Design and execute a rigorous empirical study comparing single-agent and multi-agent
-                LLM architectures for two core software engineering tasks — automated code generation
-                and requirements engineering — while measuring not just accuracy but also token cost,
-                repair iterations, and semantic correctness.
-              </p>
-              <p class="project-details__desc-para">
-                <strong>Action:</strong>
-                Architected <strong>3 LLM pipeline systems</strong> using <strong>LangGraph</strong>
-                and <strong>LangChain</strong>, powered by <strong>Claude Sonnet (Anthropic API)</strong>.
-                Engineered <strong>6 specialized agents</strong> — Planner, Extractor, Critic, Coder,
-                Test Runner, and SME Advisory — with budget-guard constraints to prevent runaway token
-                usage. Evaluated all systems across <strong>1,282+ tasks</strong> on five datasets:
-                HumanEval+, MBPP+, BigCodeBench-Hard, PURE, and NICE. Measured pass@1, Semantic F1,
-                token cost per task, and repair iterations to derive actionable cost-efficiency guidelines.
-              </p>
-              <p class="project-details__desc-para">
-                <strong>Result:</strong>
-                Achieved <strong>100% pass@1 on HumanEval+ and MBPP+</strong> and
-                <strong>0.781 Semantic F1 on requirements engineering tasks</strong> (PURE/NICE datasets).
-                Derived concrete cost-efficiency deployment guidelines for production LLM systems,
-                showing that multi-agent architectures provide measurable gains on complex, ambiguous
-                tasks while single-agent pipelines remain competitive on well-defined coding benchmarks.
-                Study ongoing as part of UIC coursework (January 2026 – Present).
-              </p>
-            </div>
-
-            <div class="project-details__tools-used">
-              <h3 class="project-details__content-title">Tools Used</h3>
-              <div class="skills">
-                <div class="skills__skill">LangGraph</div>
-                <div class="skills__skill">LangChain</div>
-                <div class="skills__skill">Claude Sonnet (Anthropic)</div>
-                <div class="skills__skill">Python</div>
-                <div class="skills__skill">Agentic AI</div>
-                <div class="skills__skill">Multi-Agent Systems</div>
-                <div class="skills__skill">LLMs</div>
-                <div class="skills__skill">Prompt Engineering</div>
-                <div class="skills__skill">HumanEval+</div>
-                <div class="skills__skill">MBPP+</div>
-                <div class="skills__skill">BigCodeBench</div>
-                <div class="skills__skill">Requirements Engineering</div>
-                <div class="skills__skill">Empirical Software Engineering</div>
-              </div>
-            </div>
-
-            <div class="project-details__links" id="project-implementation">
-              <h3 class="project-details__content-title">Project Implementation</h3>
-              <p class="project-details__desc-para">
-                This project is currently in progress. The repository will be linked upon completion.
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="main-footer">
-      <div class="main-container">
-        <div class="main-footer__upper">
-          <div class="main-footer__row main-footer__row-1">
-            <h2 class="heading heading-sm main-footer__heading-sm">
-              <span>Social</span>
-            </h2>
-            <div class="main-footer__social-cont">
-              <a target="_blank" rel="noreferrer" href="https://www.linkedin.com/in/moulshreegul/">
-                <img class="main-footer__icon" src="./assets/png/linkedin-ico.png" alt="LinkedIn" />
-              </a>
-              <a target="_blank" rel="noreferrer" href="https://github.com/mollyx09">
-                <img class="main-footer__icon" src="./assets/png/github-ico.png" alt="GitHub" />
-              </a>
-              <a target="_blank" rel="noreferrer" href="https://www.youtube.com/@moulshreeguleria2229">
-                <img class="main-footer__icon main-footer__icon--mr-none" src="./assets/png/yt-ico.png" alt="YouTube" />
-              </a>
-            </div>
-          </div>
-          <div class="main-footer__row main-footer__row-2">
-            <h4 class="heading heading-sm text-lt">Moulshree Guleria</h4>
-            <p class="main-footer__short-desc">
-              Software Engineer and AI Developer focused on distributed systems, AI applications,
-              and production-scale backend platforms.
-            </p>
-          </div>
-        </div>
-        <div class="main-footer__lower">
-          &copy; Built using a modified open-source template.
-        </div>
-      </div>
-    </footer>
-
-    <script src="./index.js"></script>
-  </body>
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); });
+    const ham = document.getElementById('ham');
+    const mobileMenu = document.getElementById('mobileMenu');
+    ham.addEventListener('click', () => { mobileMenu.classList.toggle('open'); });
+    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.remove('open')));
+  </script>
+</body>
 </html>
