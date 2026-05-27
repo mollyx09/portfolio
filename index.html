@@ -290,24 +290,18 @@
     /* ── TIMELINE ── */
     .timeline {
       position: relative;
-      padding-left: 32px;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 7px; top: 8px; bottom: 8px;
-      width: 1.5px;
-      background: var(--border);
-      border-radius: 2px;
+      padding-left: 24px;
+      border-left: 2px solid var(--border);
+      margin-left: 6px;
     }
     .tl-item {
       position: relative;
-      margin-bottom: 36px;
+      margin-bottom: 40px;
     }
     .tl-item:last-child { margin-bottom: 0; }
     .tl-dot {
       position: absolute;
-      left: -26px; top: 5px;
+      left: -31px; top: 4px;
       width: 12px; height: 12px;
       border-radius: 50%;
       background: var(--sage);
@@ -323,27 +317,17 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 16px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       flex-wrap: wrap;
     }
-    .tl-role {
-      font-size: 17px; font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 3px;
-    }
-    .tl-company {
-      font-size: 14px; color: var(--sage); font-weight: 500;
-    }
-    .tl-meta {
-      font-size: 13px; color: var(--muted);
-      white-space: nowrap; padding-top: 2px;
-    }
-    .tl-desc {
-      font-size: 15px; color: var(--ink-mid);
-      line-height: 1.75;
-    }
+    .tl-role { font-size: 17px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+    .tl-company { font-size: 14px; color: var(--sage); font-weight: 500; }
+    .tl-meta { font-size: 13px; color: var(--muted); white-space: nowrap; padding-top: 3px; }
+    .tl-desc { font-size: 15px; color: var(--ink-mid); line-height: 1.75; }
     .tl-desc strong { color: var(--ink); font-weight: 600; }
-
+    .tl-desc ul { list-style: disc; padding-left: 20px; margin: 10px 0 0; display: flex; flex-direction: column; gap: 7px; }
+    .tl-desc ul li { padding-left: 4px; }
+    .tl-desc ul li::marker { color: var(--sage); font-size: 1.1em; }
     /* ── PROJECTS ── */
     .projects-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -536,15 +520,13 @@
     <div class="hero__inner">
       <div class="hero__badge">
         <span class="hero__badge-dot"></span>
-        Software & ML/AI Engineer · MS CS @ UIC
+        Software & ML/AI Engineer <span class="hero__badge-dot"></span> MS CS @ UIC
       </div>
       <h1 class="hero__title">
-        Hey, I'm<br><em>Moulshree</em>
+        Hello, I'm<br><em>Moulshree</em>
       </h1>
       <p class="hero__sub">
-        Software Engineer and AI developer specializing in agentic AI systems,
-        distributed RAG pipelines, and production-scale backend platforms.
-        ~4 years of industry experience across PwC and beyond.
+        I build production-ready AI and backend systems from Agentic LLM workflows and distributed RAG pipelines to scalable REST APIs and cloud-native platforms, backed by nearly 4 years of industry software engineering experience.
       </p>
       <div class="hero__actions">
         <a href="#projects" class="btn btn--primary">View Projects</a>
@@ -563,7 +545,7 @@
       </div>
     </div>
     <div class="hero__scroll">
-      <span>Scroll</span>
+      <span>Explore</span>
       <div class="hero__scroll-line"></div>
     </div>
   </section>
@@ -577,18 +559,16 @@
       <div class="about__grid">
         <div class="about__text reveal">
           <p>
-            I'm <strong>Moulshree Guleria</strong>, a Software Engineer and AI developer currently pursuing my
-            <strong>MS in Computer Science (GPA: 4.0) at the University of Illinois Chicago</strong>,
-            where I also serve as a Graduate Teaching Assistant for CS 411: AI.
+            I'm a software engineer with nearly 4 years of industry experience building backend systems, enterprise SaaS platforms, and AI-powered automation workflows. I recently completed my <strong>M.S. in Computer Science from the University of Illinois Chicago</strong>, where I focused on artificial intelligence, machine learning, cloud computing, distributed systems, and neural engineering. I also served as a <strong>Graduate Teaching Assistant</strong> for CS 411: Artificial Intelligence I.
           </p>
           <p>
-            Previously, I spent nearly four years at <strong>PricewaterhouseCoopers</strong> as a Senior Software Engineer,
-            shipping 10+ production REST APIs for a SaaS talent marketplace used by 32K+ users,
-            leading incident response, and mentoring engineering interns.
+            Previously, I worked as a <strong>Senior Software Engineer at PwC</strong>, building and deploying enterprise SaaS RESTful APIs in C# and ASP.NET for a talent marketplace serving <strong>32K+ users</strong>. My work involved backend development, stakeholder collaboration, production support, incident response, and mentoring engineering interns.
           </p>
           <p>
-            Today I'm drawn to the intersection of <strong>Agentic AI</strong>, <strong>distributed systems</strong>,
-            and rigorous backend engineering — building systems that are not just intelligent but reliable at scale.
+            I've also worked on applied AI and automation projects, most recently as an <strong>AI Strategy Intern at the World Music Foundation</strong> in Chicago, where I helped design AI-powered pipelines to streamline day-to-day operations.
+          </p>
+          <p>
+            I'm interested in building applied AI products that move from research and prototypes into production-ready systems. Whether it's backend platforms, AI agents, RAG systems, or automation workflows, I enjoy turning complex ideas into practical software that creates real-world impact.
           </p>
           <a href="#contact" class="btn btn--primary" style="margin-top: 8px;">Get in touch</a>
         </div>
@@ -645,7 +625,11 @@
             </div>
             <div class="tl-meta">Sep 2025 – Dec 2025 &nbsp;·&nbsp; Chicago, IL</div>
           </div>
-          <p class="tl-desc">Engineered an AI-powered validation pipeline integrating OpenAI's ChatGPT to automate job-application screening — cutting manual review time from <strong>2 days to 4 hours</strong>. Also built the WMF website on WordPress using JavaScript, HTML, and CSS.</p>
+          <div class="tl-desc"><ul>
+              <li>Engineered an AI-powered validation pipeline integrating OpenAI's ChatGPT to automate job application screening, cutting manual review time from <strong>2 days to 4 hours</strong>.</li>
+              <li>Collaborated with leadership to drive AI adoption and tested different AI tools for data analysis, visualization, and automating day-to-day operations.</li>
+              <li>Built the WMF website on WordPress using JavaScript, HTML, and CSS.</li>
+            </ul></div>
         </div>
 
         <div class="tl-item reveal reveal--delay-1">
@@ -657,23 +641,33 @@
             </div>
             <div class="tl-meta">Jan 2021 – Aug 2024 &nbsp;·&nbsp; Bengaluru, India</div>
           </div>
-          <p class="tl-desc">Developed and deployed <strong>10+ REST APIs</strong> in C# / ASP.NET for PwC's B2C SaaS talent marketplace supporting <strong>32K+ active users</strong>. Led technical design with stakeholders, mentored 5 engineering interns, streamlined CI/CD achieving a <strong>98% deployment success rate</strong>, and led a 10-member incident response team with <strong>95% on-time resolution efficiency</strong>.</p>
+          <div class="tl-desc"><ul>
+              <li>Developed and deployed <strong>10+ REST APIs</strong> in C# / ASP.NET for PwC's B2C SaaS talent marketplace (Talent Exchange) supporting <strong>32K+ active users</strong>.</li>
+              <li>Led technical design discussions with business and financial stakeholders, translating requirements into scalable .NET backend solutions.</li>
+              <li>Mentored 5 software engineering interns through onboarding and code reviews, successfully converting them to full-time roles.</li>
+              <li>Streamlined CI/CD pipelines using Azure DevOps, achieving a <strong>98% deployment success rate</strong>.</li>
+              <li>Led a 10-member incident response team resolving operational incidents with <strong>95% on-time efficiency</strong>, providing 24/7 on-call support.</li>
+            </ul></div>
         </div>
 
         <div class="tl-item reveal reveal--delay-2">
           <div class="tl-dot"></div>
           <div class="tl-header">
             <div>
-              <div class="tl-role">Graduate Teaching Assistant — CS 411: AI</div>
+              <div class="tl-role">Graduate Teaching Assistant - CS 411: Artificial Intelligence I</div>
               <div class="tl-company">University of Illinois Chicago</div>
             </div>
-            <div class="tl-meta">Jan 2025 – Present &nbsp;·&nbsp; Chicago, IL</div>
+            <div class="tl-meta">Jan 2025 – May 2026 &nbsp;·&nbsp; Chicago, IL</div>
           </div>
-          <p class="tl-desc">Owned end-to-end course operations for <strong>150+ students across 3 terms</strong>. Implemented Gradescope autograders reducing grading effort by <strong>60%</strong>. Hosted weekly office hours and translated student feedback into process improvements.</p>
+          <div class="tl-desc"><ul>
+              <li>Owned end-to-end course operations for <strong>150+ students across 3 terms</strong> — coordinating assignments, exams, attendance, and grading.</li>
+              <li>Implemented Gradescope test-case autograders automating assignment correctness validation at scale, reducing grading effort by <strong>60%</strong>.</li>
+              <li>Hosted weekly office hours to resolve course, conceptual, and logistical concerns, translating student feedback into process improvements.</li>
+            </ul></div>
         </div>
 
         <div class="tl-item reveal reveal--delay-3">
-          <div class="tl-dot tl-dot--muted"></div>
+          <div class="tl-dot"></div>
           <div class="tl-header">
             <div>
               <div class="tl-role">Software Engineer Intern</div>
@@ -681,7 +675,10 @@
             </div>
             <div class="tl-meta">Jun 2019 – Jul 2019 &nbsp;·&nbsp; Mysuru, India</div>
           </div>
-          <p class="tl-desc">Built a full-stack Django web application integrating REST APIs, data visualization, and third-party services. Engineered a face-recognition attendance system using Python and OpenCV to eliminate manual tracking.</p>
+          <div class="tl-desc"><ul>
+              <li>Designed and built a full-stack Django web application integrating REST APIs, data visualization, and third-party services (weather, Oxford Dictionary, GitHub) to deliver a unified user portal.</li>
+              <li>Engineered a face-recognition attendance system using Python and OpenCV to eliminate manual attendance tracking.</li>
+            </ul></div>
         </div>
 
       </div>
@@ -840,8 +837,7 @@
           </div>
         </div>
         <div class="contact__actions reveal">
-          <a href="mailto:mxguleria@gmail.com" class="btn btn--primary">Say hello →</a>
-          <a href="https://drive.google.com/uc?export=download&id=14bc3s9U6n5-Qavgq2y8z0wKPp1rvjv0q" class="btn btn--outline" target="_blank" rel="noopener noreferrer">Download Resume ↗</a>
+          <a href="https://drive.google.com/uc?export=download&id=14bc3s9U6n5-Qavgq2y8z0wKPp1rvjv0q" class="btn btn--primary" target="_blank" rel="noopener noreferrer">Download Resume ↗</a>
         </div>
       </div>
     </div>
